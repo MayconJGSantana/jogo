@@ -9,20 +9,6 @@ programa
 	}
 	funcao inicio()
 	{
-		/*
-		inteiro imagem_fundo
-		// supostamento pega imagem
-		imagem_fundo = Graficos.carregar_imagem("/home/lab/IIR/Portugol/65.png")
-		// supostamente faz aparecer a imagem
-		Graficos.iniciar_modo_grafico(verdadeiro)
-		Graficos.definir_titulo_janela("Teste")
-		Graficos.definir_dimensoes_janela(500,500)
-		Graficos.limpar()
-		Graficos.desenhar_imagem(-550, 0, imagem_fundo)
-		Graficos.renderizar()
-		Util.aguarde(10000)
-		// x machine
-		*/
 		cadeia palavras[] = {"cachorro","gato","avião","carro","computador","livro","escola","floresta","amigo","telefone","bola","música","praia","chave","janela","cidade","hospital","bicicleta","pizza","desenho","mesa","porta","jogo","rato","cabelo","camisa","estrela","caderno","filme"}
 		caracter alfabeto[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
 		caracter letras_tentadas[26]
