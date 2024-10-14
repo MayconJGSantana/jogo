@@ -5,31 +5,32 @@ programa
 	inclua biblioteca Mouse
 	inclua biblioteca Graficos
 	inclua biblioteca Util
+	inclua biblioteca Matematica
 
 	inteiro COR_CINZA = Graficos.criar_cor(190, 190, 190)
 	inteiro COR_CINZA_ESCURO = Graficos.criar_cor(128, 128, 128)
 	
-	inteiro posicao_x_seta = 40
-	inteiro posicao_y_seta = 930
+	inteiro posicao_x_seta = adequar_largura(40)
+	inteiro posicao_y_seta = adequar_altura(930)
 	
 	inteiro vida_bandido = 200
 	
 	inteiro vida_usuario = 200
-	inteiro posicao_x_usuario = 10
-	inteiro posicao_y_usuario = 10
+	inteiro posicao_x_usuario = adequar_largura(10)
+	inteiro posicao_y_usuario = adequar_altura(10)
 
 // movimentação
 	funcao vazio criar_usuario() {
-		Graficos.desenhar_retangulo(posicao_x_usuario, posicao_y_usuario, 100, 100, falso, verdadeiro)
+		Graficos.desenhar_retangulo(posicao_x_usuario, posicao_y_usuario, adequar_largura(100), adequar_altura(100), falso, verdadeiro)
 	}
 
 	funcao logico mover_usuario() {
-		const inteiro LARGURA_USUARIO = 100
-		const inteiro ALTURA_USUARIO = 100
+		inteiro LARGURA_USUARIO = adequar_largura(100)
+		inteiro ALTURA_USUARIO = adequar_altura(100)
 		
 		logico dentro_tela_cima = ((posicao_y_usuario - 10) >= 0)
-		logico dentro_tela_baixo = (((posicao_y_usuario + ALTURA_USUARIO) + 10) <= 1079)
-		logico dentro_tela_direita = (((posicao_x_usuario + LARGURA_USUARIO) + 10) <= 1919)
+		logico dentro_tela_baixo = (((posicao_y_usuario + ALTURA_USUARIO) + 10 <= adequar_altura(1079)))
+		logico dentro_tela_direita = (((posicao_x_usuario + LARGURA_USUARIO) + 10 <= adequar_largura(1919)))
 		logico dentro_tela_esquerda = ((posicao_x_usuario - 10) >= 0)
 		
 		se (Teclado.tecla_pressionada(Teclado.TECLA_W) e dentro_tela_cima) {
@@ -77,20 +78,20 @@ programa
 				
 				// definir personagens
 				Graficos.definir_cor(COR_CINZA)
-				Graficos.desenhar_retangulo(594 - 50 / 2, 1079 - 350 - 190 - 30 - 80, 50, 190, falso, verdadeiro)
-				Graficos.desenhar_retangulo(730 + (594 - 50 / 2), 250 - 40 - 80, 50, 190, falso, verdadeiro)
+				Graficos.desenhar_retangulo(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
+				Graficos.desenhar_retangulo(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
 				
-				se (Teclado.tecla_pressionada(Teclado.TECLA_W) e posicao_y_seta == 930) {
-					posicao_y_seta -= 170
+				se (Teclado.tecla_pressionada(Teclado.TECLA_W) e posicao_y_seta == adequar_altura(930)) {
+					posicao_y_seta -= adequar_altura(170)
 				}
-				senao se (Teclado.tecla_pressionada(Teclado.TECLA_S) e posicao_y_seta == 760) {
-					posicao_y_seta += 170
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_S) e posicao_y_seta == adequar_altura(760)) {
+					posicao_y_seta += adequar_altura(170)
 				}
-				senao se (Teclado.tecla_pressionada(Teclado.TECLA_A) e posicao_x_seta == 657) {
-					posicao_x_seta -= 617
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_A) e posicao_x_seta == adequar_largura(657)) {
+					posicao_x_seta -= adequar_largura(617)
 				}
-				senao se (Teclado.tecla_pressionada(Teclado.TECLA_D) e posicao_x_seta == 40) {
-					posicao_x_seta += 617
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_D) e posicao_x_seta == adequar_largura(40)) {
+					posicao_x_seta += adequar_largura(617)
 				}
 				
 				Graficos.renderizar()
@@ -102,16 +103,16 @@ programa
 	}
 
 	funcao inteiro ataque_escolhido() {
-		se (posicao_y_seta == 760 e posicao_x_seta == 40) {
+		se (posicao_y_seta == adequar_altura(760) e posicao_x_seta == adequar_largura(40)) {
 			retorne 1
 		}
-		senao se (posicao_y_seta == 930 e posicao_x_seta == 40) {
+		senao se (posicao_y_seta == adequar_altura(930) e posicao_x_seta == adequar_largura(40)) {
 			retorne 2
 		}
-		senao se (posicao_y_seta == 760 e posicao_x_seta == 657) {
+		senao se (posicao_y_seta == adequar_altura(760) e posicao_x_seta == adequar_largura(657)) {
 			retorne 3
 		}
-		senao se (posicao_y_seta == 930 e posicao_x_seta == 657) {
+		senao se (posicao_y_seta == adequar_altura(930) e posicao_x_seta == adequar_largura(657)) {
 			retorne 4
 		}
 		senao {
@@ -147,8 +148,8 @@ programa
 		cenario_batalha()
 		// definir personagens
 		Graficos.definir_cor(COR_CINZA)
-		Graficos.desenhar_retangulo(594 - 50 / 2, 1079 - 350 - 190 - 30 - 80, 50, 190, falso, verdadeiro)
-		Graficos.desenhar_retangulo(730 + (594 - 50 / 2), 250 - 40 - 80, 50, 190, falso, verdadeiro)
+		Graficos.desenhar_retangulo(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
+		Graficos.desenhar_retangulo(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
 		Graficos.renderizar()
 		
 		Util.aguarde(1500)
@@ -169,7 +170,7 @@ programa
 			cenario_batalha()
 			
 			Graficos.definir_cor(COR_CINZA)
-			Graficos.desenhar_retangulo(594 - 50 / 2, 1079 - 350 - 190 - 30 - 80, 50, 190, falso, verdadeiro)
+			Graficos.desenhar_retangulo(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
 		
 			Graficos.renderizar()
 			Util.aguarde(150)
@@ -177,9 +178,9 @@ programa
 			cenario_batalha()
 
 			Graficos.definir_cor(COR_CINZA)
-			Graficos.desenhar_retangulo(594 - 50 / 2, 1079 - 350 - 190 - 30 - 80, 50, 190, falso, verdadeiro)
+			Graficos.desenhar_retangulo(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
 			Graficos.definir_cor(COR_CINZA)
-			Graficos.desenhar_retangulo(730 + (594 - 50 / 2), 250 - 40 - 80, 50, 190, falso, verdadeiro)
+			Graficos.desenhar_retangulo(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
 
 			Graficos.renderizar()
 			Util.aguarde(200)
@@ -193,7 +194,7 @@ programa
 			cenario_batalha()
 			
 			Graficos.definir_cor(COR_CINZA)
-			Graficos.desenhar_retangulo(730 + (594 - 50 / 2), 250 - 40 - 80, 50, 190, falso, verdadeiro)
+			Graficos.desenhar_retangulo(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
 		
 			Graficos.renderizar()
 			Util.aguarde(150)
@@ -201,9 +202,9 @@ programa
 			cenario_batalha()
 
 			Graficos.definir_cor(COR_CINZA)
-			Graficos.desenhar_retangulo(594 - 50 / 2, 1079 - 350 - 190 - 30 - 80, 50, 190, falso, verdadeiro)
+			Graficos.desenhar_retangulo(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
 			Graficos.definir_cor(COR_CINZA)
-			Graficos.desenhar_retangulo(730 + (594 - 50 / 2), 250 - 40 - 80, 50, 190, falso, verdadeiro)
+			Graficos.desenhar_retangulo(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
 
 			Graficos.renderizar()
 			Util.aguarde(200)
@@ -218,28 +219,28 @@ programa
 		Graficos.limpar()
 			
 		Graficos.definir_cor(Graficos.COR_PRETO)
-		Graficos.desenhar_retangulo(20, 70, 720, 150, verdadeiro, verdadeiro)
-		Graficos.desenhar_retangulo(1919 - 740, 1079 - (350 + 100 + 150), 720, 150, verdadeiro, verdadeiro)
+		Graficos.desenhar_retangulo(adequar_largura(20), adequar_altura(70), adequar_largura(720), adequar_altura(150), verdadeiro, verdadeiro)
+		Graficos.desenhar_retangulo(adequar_largura(1919 - 740),adequar_altura( 1079 - (350 + 100 + 150)), adequar_largura(720), adequar_altura(150), verdadeiro, verdadeiro)
 
 		Graficos.definir_cor(Graficos.COR_AMARELO)
-		Graficos.desenhar_retangulo(30, 135, vida_bandido / 2 * 7, 75, verdadeiro, verdadeiro)
-		Graficos.desenhar_retangulo(1919 - 730, 1079 - (350 + 100 + 10 + 75), vida_usuario / 2 * 7, 75, verdadeiro, verdadeiro)
+		Graficos.desenhar_retangulo(adequar_largura(30), adequar_altura(135), adequar_largura(vida_bandido / 2 * 7), adequar_altura(75), verdadeiro, verdadeiro)
+		Graficos.desenhar_retangulo(adequar_largura(1919 - 730), adequar_altura(1079 - (350 + 100 + 10 + 75)), adequar_largura(vida_usuario / 2 * 7), adequar_altura(75), verdadeiro, verdadeiro)
 
 		Graficos.definir_cor(COR_CINZA_ESCURO)
-		Graficos.desenhar_elipse(594 - 800 / 2, 1079 - 350 - 150 - 30, 800, 150, verdadeiro)
-		Graficos.desenhar_elipse(730 + (594 - 800 / 2), 250, 800, 150, verdadeiro)
+		Graficos.desenhar_elipse(adequar_largura(594 - 800 / 2), adequar_altura(1079 - 350 - 150 - 30), adequar_largura(800), adequar_altura(150), verdadeiro)
+		Graficos.desenhar_elipse(adequar_largura(730 + (594 - 800 / 2)), adequar_altura(250), adequar_largura(800), adequar_altura(150), verdadeiro)
 
 		// interface dos ataques
 		Graficos.definir_cor(COR_CINZA)
-		Graficos.desenhar_retangulo(0, 1079 - 350, 1920, 350, falso, verdadeiro)
+		Graficos.desenhar_retangulo(adequar_largura(0), adequar_altura(1079 - 350), adequar_largura(1920), adequar_altura(350), falso, verdadeiro)
 
 		Graficos.definir_cor(COR_CINZA_ESCURO)
-		Graficos.desenhar_retangulo(200, 1079 - (350 - 20), LARGURA_BLOCOS_ATAQUE, ALTURA_BLOCOS_ATAQUE, falso, verdadeiro)
-		Graficos.desenhar_retangulo(200, 1079 - (350 - 20 - ALTURA_BLOCOS_ATAQUE - 30), LARGURA_BLOCOS_ATAQUE, ALTURA_BLOCOS_ATAQUE, falso, verdadeiro)
-		Graficos.desenhar_retangulo(200 + LARGURA_BLOCOS_ATAQUE + 230, 1079 - (350 - 20), LARGURA_BLOCOS_ATAQUE, ALTURA_BLOCOS_ATAQUE, falso, verdadeiro)
-		Graficos.desenhar_retangulo(200 + LARGURA_BLOCOS_ATAQUE + 230, 1079 - (350 - 20 - ALTURA_BLOCOS_ATAQUE - 30), LARGURA_BLOCOS_ATAQUE, ALTURA_BLOCOS_ATAQUE, falso, verdadeiro)
+		Graficos.desenhar_retangulo(adequar_largura(200), adequar_altura(1079 - (350 - 20)), adequar_largura(LARGURA_BLOCOS_ATAQUE), adequar_altura(ALTURA_BLOCOS_ATAQUE), falso, verdadeiro)
+		Graficos.desenhar_retangulo(adequar_largura(200), adequar_altura(1079 - (350 - 20 - ALTURA_BLOCOS_ATAQUE - 30)), adequar_largura(LARGURA_BLOCOS_ATAQUE), adequar_altura(ALTURA_BLOCOS_ATAQUE), falso, verdadeiro)
+		Graficos.desenhar_retangulo(adequar_largura(200 + LARGURA_BLOCOS_ATAQUE + 230), adequar_altura(1079 - (350 - 20)), adequar_largura(LARGURA_BLOCOS_ATAQUE), adequar_altura(ALTURA_BLOCOS_ATAQUE), falso, verdadeiro)
+		Graficos.desenhar_retangulo(adequar_largura(200 + LARGURA_BLOCOS_ATAQUE + 230), adequar_altura(1079 - (350 - 20 - ALTURA_BLOCOS_ATAQUE - 30)), adequar_largura(LARGURA_BLOCOS_ATAQUE), adequar_altura(ALTURA_BLOCOS_ATAQUE), falso, verdadeiro)
 		
-		Graficos.definir_tamanho_texto(120.0)
+		Graficos.definir_tamanho_texto(adequar_texto(120.0))
 		Graficos.desenhar_texto(posicao_x_seta, posicao_y_seta, ">")
 	}
 	
@@ -249,9 +250,22 @@ programa
 			Graficos.definir_cor(COR_CINZA)
 			Graficos.limpar()
 			
-			Graficos.definir_tamanho_texto(20.0)
-			Graficos.desenhar_texto(990, 100, "Testando")
+			Graficos.definir_tamanho_texto(adequar_texto(20.0))
+			Graficos.desenhar_texto(adequar_largura(990), adequar_altura(100), "Testando")
 		}
+	}
+
+// variados
+	funcao inteiro adequar_largura(inteiro tamanho) {
+		retorne Matematica.arredondar(tamanho * (Graficos.largura_tela() / 1920.0), 0)
+	}
+
+	funcao inteiro adequar_altura(inteiro tamanho) {
+		retorne Matematica.arredondar(tamanho * (Graficos.altura_tela() / 1080.0), 0)
+	}
+
+	funcao inteiro adequar_texto(inteiro tamanho) {
+		retorne Matematica.arredondar(tamanho * (Graficos.largura_tela() / 1920.0), 0)
 	}
 	
 	funcao inicio()
@@ -270,7 +284,7 @@ programa
 			Graficos.limpar()
 	
 			Graficos.definir_cor(Graficos.COR_BRANCO)
-			Graficos.desenhar_retangulo(1600, 200, 300, 300, verdadeiro, verdadeiro)
+			Graficos.desenhar_retangulo(adequar_largura(1600), adequar_altura(200), adequar_largura(300), adequar_altura(300), verdadeiro, verdadeiro)
 			
 			criar_usuario()
 			usuario_moveu = mover_usuario()
@@ -283,18 +297,18 @@ programa
 			}
 			
 			Graficos.definir_cor(Graficos.COR_PRETO)
-			Graficos.definir_tamanho_texto(20.0)
-			Graficos.desenhar_texto(1625, 210, "Posição x (mouse): ")
-			Graficos.desenhar_texto(1800, 210, Tipos.inteiro_para_cadeia(Mouse.posicao_x(), 10))
+			Graficos.definir_tamanho_texto(adequar_texto(20.0))
+			Graficos.desenhar_texto(adequar_largura(1625), adequar_altura(210), "Posição x (mouse): ")
+			Graficos.desenhar_texto(adequar_largura(1800), adequar_altura(210), Tipos.inteiro_para_cadeia(Mouse.posicao_x(), 10))
 			
-			Graficos.desenhar_texto(1625, 235, "Posição y (mouse): ")
-			Graficos.desenhar_texto(1800, 235, Tipos.inteiro_para_cadeia(Mouse.posicao_y(), 10))
+			Graficos.desenhar_texto(adequar_largura(1625), adequar_altura(235), "Posição y (mouse): ")
+			Graficos.desenhar_texto(adequar_largura(1800), adequar_altura(235), Tipos.inteiro_para_cadeia(Mouse.posicao_y(), 10))
 			
-			Graficos.desenhar_texto(1625, 285, "Posição x (usuário): ")
-			Graficos.desenhar_texto(1810, 285, Tipos.inteiro_para_cadeia(posicao_x_usuario, 10))
+			Graficos.desenhar_texto(adequar_largura(1625), adequar_altura(285), "Posição x (usuário): ")
+			Graficos.desenhar_texto(adequar_largura(1810), adequar_altura(285), Tipos.inteiro_para_cadeia(posicao_x_usuario, 10))
 			
-			Graficos.desenhar_texto(1625, 305, "Posição y (usuário): ")
-			Graficos.desenhar_texto(1810, 305, Tipos.inteiro_para_cadeia(posicao_y_usuario, 10))
+			Graficos.desenhar_texto(adequar_largura(1625), adequar_altura(305), "Posição y (usuário): ")
+			Graficos.desenhar_texto(adequar_largura(1810), adequar_altura(305), Tipos.inteiro_para_cadeia(posicao_y_usuario, 10))
 			
 			Graficos.renderizar()
 			
