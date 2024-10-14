@@ -12,16 +12,17 @@ programa
 		Graficos.desenhar_imagem(0, 0, imagem)
 		Graficos.renderizar()
 
+		Graficos.entrar_modo_tela_cheia()
 		Graficos.definir_dimensoes_janela(Graficos.largura_tela(), Graficos.altura_tela())
-		imagem = Graficos.redimensionar_imagem(imagem, 1366, 1080 * (Graficos.altura_tela() / 1080.0), verdadeiro)
+		imagem = Graficos.redimensionar_imagem(imagem, 1920 * (Graficos.largura_tela() / 1920.0), 1080 * (Graficos.altura_tela() / 1080.0), verdadeiro)
 		Graficos.desenhar_imagem(0, 0, imagem)
-		Graficos.renderizar()
 
-		escreva(Graficos.altura_imagem(imagem))
-			
-		escreva("Altura: ", 1920 * (Graficos.largura_tela() / 1920.0), " - Largura: ", 1080 * (Graficos.altura_tela() / 1080.0))
+		Graficos.definir_cor(Graficos.COR_BRANCO)
+		Graficos.definir_tamanho_texto(20.0)
+		Graficos.desenhar_texto(1540 * (Graficos.largura_tela() / 1920.0), 1059 * (Graficos.altura_tela() / 1080.0), "Esse é um texto para testar as resoluções")
 		
-		escreva("Altura: ", Graficos.altura_tela(), " - Largura: ", Graficos.largura_tela())
+		Graficos.renderizar()
+		
 		inteiro i
 		enquanto (verdadeiro) {
 			/*Graficos.definir_cor(Graficos.COR_BRANCO)
@@ -32,14 +33,3 @@ programa
 		}
 	}
 }
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seção do arquivo guarda informações do Portugol Studio.
- * Você pode apagá-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 1223; 
- * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
- * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
- * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
- */
