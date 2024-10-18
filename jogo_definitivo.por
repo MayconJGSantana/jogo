@@ -8,7 +8,7 @@ programa
 
 	inteiro posicao_x_usuario = adequar_largura(500)
 	inteiro posicao_y_usuario = adequar_altura(155)
-	inteiro usuario = Graficos.carregar_imagem("/personagens/usuario.png")
+	inteiro usuario = Graficos.carregar_imagem("personagens/usuario.png")
 	inteiro cidade = Graficos.carregar_imagem("cidade.jpg")
 	inteiro COR_CINZA = Graficos.criar_cor(190, 190, 190)
 	
@@ -25,8 +25,7 @@ programa
 		
 		lugar = "historia"
 		historia()
-
-		Util.aguarde(20000)
+		pular_historia(20000, "historia")
 
 		lugar = "escolha_curso"
 		curso = escolha_curso()
@@ -47,7 +46,17 @@ programa
 			
 		}
 		senao se (tipo_investigacao == "ajuda_moradores") {
-
+			
+			se (curso == "tecnico_desenvovlimento_sistemas") {
+				
+			}
+			senao se (curso == "seguranca publica") {
+				
+			}
+			senao se (curso == "psicologia") {
+				
+			}
+			
 		}
 
 		lugar = "casa_usuario"
@@ -73,31 +82,15 @@ programa
 		Graficos.renderizar()
 	}
 
-	funcao vazio pular_historia(inteiro tempo, cadeia cenario) {
+	funcao vazio pular_historia(inteiro TEMPO, cadeia cenario) {
 		inteiro i
 		
-		inteiro segundo_inical
-		inteiro milisegundo_inicial
-
-		inteiro segundo_final
-		inteiro milisegundo_final
-	
-		const inteiro SEGUNDO_EM_MILISEGUNDO = 1000
-
-		const inteiro TEMPO = 1687
-		
-		segundo_inical = Calendario.segundo_atual()
-		milisegundo_inicial = Calendario.milisegundo_atual()
-		
-		segundo_final = (segundo_inical + (TEMPO / SEGUNDO_EM_MILISEGUNDO)) % 60
-		milisegundo_final = (milisegundo_inicial + (TEMPO % SEGUNDO_EM_MILISEGUNDO)) % 1000
-		
-		faca {
+		para (i = 1; i <= TEMPO; i++) {
 			Util.aguarde(1)
 			se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
 				pare
 			}
-		} enquanto (nao (segundo_final == Calendario.segundo_atual() e milisegundo_final <= Calendario.milisegundo_atual()))
+		}
 	}
 
 	funcao cadeia escolha_curso() {
