@@ -96,8 +96,8 @@ programa
 		inteiro arquivo = 0
 		
 			// Principais
-		inteiro usuario = Graficos.carregar_imagem("Find_IT/personagens/usuario/usuario.png")
-		inteiro cidade = Graficos.carregar_imagem("Find_IT/cenarios/cidade/cidade.jpg")
+		inteiro usuario = Graficos.carregar_imagem("Find_IT_3/personagens/usuario/usuario.png")
+		inteiro cidade = Graficos.carregar_imagem("Find_IT_1/cenarios/cidade/cidade.jpg")
 
 		/*
 			// Esgoto
@@ -145,10 +145,10 @@ programa
 		inteiro lugar_fim = 1
 		inteiro fim_partes[11]
 		
-		fim_partes[0] = Graficos.carregar_imagem("Find_IT/historia/e_fake_news/historia_12.png")
-		fim_partes[1] = Graficos.carregar_imagem("Find_IT/historia/e_fake_news/historia_13.png")
-		fim_partes[2] = Graficos.carregar_imagem("Find_IT/historia/e_fake_news/historia_14.png")
-		fim_partes[3] = Graficos.carregar_imagem("Find_IT/historia/e_fake_news/historia_15.png")
+		fim_partes[0] = Graficos.carregar_imagem("Find_IT_3/e_fake_news/historia_12.png")
+		fim_partes[1] = Graficos.carregar_imagem("Find_IT_3/e_fake_news/historia_13.png")
+		fim_partes[2] = Graficos.carregar_imagem("Find_IT_3/e_fake_news/historia_14.png")
+		fim_partes[3] = Graficos.carregar_imagem("Find_IT_3/e_fake_news/historia_15.png")
 		
 		enquanto (verdadeiro) {
 
@@ -158,7 +158,7 @@ programa
 				lugar_fim++
 				Util.aguarde(300)
 			}
-			senao se (Teclado.tecla_pressionada(Teclado.TECLA_Q) e lugar_fim != 1) {
+			senao se (Teclado.tecla_pressionada(Teclado.TECLA_Q) e lugar_fim != 1 e lugar_fim != 4) {
 				lugar_fim--
 				Util.aguarde(300)
 			}
@@ -202,17 +202,17 @@ programa
 		inteiro i
 		inteiro historia_partes[11]
 		
-		historia_partes[0] = Graficos.carregar_imagem("Find_IT/historia/historia_1.png")
-		historia_partes[1] = Graficos.carregar_imagem("Find_IT/historia/historia_2.png")
-		historia_partes[2] = Graficos.carregar_imagem("Find_IT/historia/escolha_curso.png")
-		historia_partes[3] = Graficos.carregar_imagem("Find_IT/historia/historia_4.png")
-		historia_partes[4] = Graficos.carregar_imagem("Find_IT/historia/historia_5.png")
-		historia_partes[5] = Graficos.carregar_imagem("Find_IT/historia/historia_6.png")
-		historia_partes[6] = Graficos.carregar_imagem("Find_IT/historia/historia_7.png")
-		historia_partes[7] = Graficos.carregar_imagem("Find_IT/historia/historia_8.png")
-		historia_partes[8] = Graficos.carregar_imagem("Find_IT/historia/historia_9.png")
-		historia_partes[9] = Graficos.carregar_imagem("Find_IT/historia/historia_10.png")
-		historia_partes[10] = Graficos.carregar_imagem("Find_IT/historia/escolha_noticia.png")
+		historia_partes[0] = Graficos.carregar_imagem("Find_IT_2/historia/historia_1.png")
+		historia_partes[1] = Graficos.carregar_imagem("Find_IT_2/historia/historia_2.png")
+		historia_partes[2] = Graficos.carregar_imagem("Find_IT_2/historia/escolha_curso.png")
+		historia_partes[3] = Graficos.carregar_imagem("Find_IT_2/historia/historia_4.png")
+		historia_partes[4] = Graficos.carregar_imagem("Find_IT_2/historia/historia_5.png")
+		historia_partes[5] = Graficos.carregar_imagem("Find_IT_2/historia/historia_6.png")
+		historia_partes[6] = Graficos.carregar_imagem("Find_IT_2/historia/historia_7.png")
+		historia_partes[7] = Graficos.carregar_imagem("Find_IT_2/historia/historia_8.png")
+		historia_partes[8] = Graficos.carregar_imagem("Find_IT_2/historia/historia_9.png")
+		historia_partes[9] = Graficos.carregar_imagem("Find_IT_2/historia/historia_10.png")
+		historia_partes[10] = Graficos.carregar_imagem("Find_IT_2/historia/escolha_noticia.png")
 		
 		enquanto (verdadeiro) {
 
@@ -325,12 +325,13 @@ programa
 				pare
 			}
 		}
+		Graficos.definir_opacidade(255)
 	}
 
 	funcao vazio escolha_tipo_investigacao(cadeia &tipo_investigacao) {
 		inteiro tela_escolha_investigacao
 		
-		tela_escolha_investigacao = Graficos.carregar_imagem("Find_IT/historia/oq_eu_faco.png")
+		tela_escolha_investigacao = Graficos.carregar_imagem("Find_IT_2/historia/oq_eu_faco.png")
 		
 		enquanto (verdadeiro) {
 			Graficos.desenhar_imagem(0, 0, tela_escolha_investigacao)
@@ -571,84 +572,90 @@ programa
 	// o usuário precisa escolher entre os três moradores
 	funcao logico falar_moradores() {
 		inteiro moradores_certos[] = {0, 0, 0}
-		caracter caracter_numero_morador
-		inteiro inteiro_numero_morador
 		logico conseguiu_informacao = falso
 		inteiro numero_sorteado
+		logico parar = falso
 
-		inteiro moradores_partes[5]
+		inteiro moradores_partes[6]
 
-		moradores_partes[0] = Graficos.carregar_imagem("Find_IT/historia/moca.png")
-		moradores_partes[1] = Graficos.carregar_imagem("Find_IT/historia/ngm.png")
-		moradores_partes[2] = Graficos.carregar_imagem("Find_IT/historia/velho.png")
-		moradores_partes[3] = Graficos.carregar_imagem("Find_IT/historia/tds_infarto.png")
-		moradores_partes[4] = Graficos.carregar_imagem("Find_IT/historia/tds_infarto_final.png")
-
+		moradores_partes[0] = Graficos.carregar_imagem("Find_IT_3/moradores/moca.png")
+		moradores_partes[1] = Graficos.carregar_imagem("Find_IT_3/moradores/ngm.png")
+		moradores_partes[2] = Graficos.carregar_imagem("Find_IT_3/moradores/velho.png")
+		moradores_partes[3] = Graficos.carregar_imagem("Find_IT_2/historia/tds_infarto.png")
+		moradores_partes[4] = Graficos.carregar_imagem("Find_IT_2/historia/tds_infarto_final.png")
 		
 		escolher_moradores_certos(moradores_certos)
 		
-		enquanto (verdadeiro) {
+		enquanto (nao parar) {
 			movimentacao_cidade()
 			mostrar_primeira_missao()
 			Graficos.renderizar()
-			
-			se ((lugar == "casa_morador_1" ou lugar == "casa_morador_2" ou lugar == "casa_morador_3") e Teclado.tecla_pressionada(Teclado.TECLA_E)) {
-				se (curso == "seguranca_publica" ou curso == "psicologia") {
-					caracter_numero_morador = Texto.obter_caracter(lugar, 13)
-					inteiro_numero_morador = Tipos.caracter_para_inteiro(caracter_numero_morador) - 1
-					se (moradores_certos[inteiro_numero_morador] == 1) {
-						Graficos.desenhar_imagem(0, 0, moradores_partes[0])
-						Graficos.renderizar()
-						enquanto (verdadeiro) {
-							se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
-								pare
-							}
-						}
-						conseguiu_informacao = verdadeiro
-					}
-					senao se (moradores_certos[inteiro_numero_morador] == 0) {
-						Graficos.desenhar_imagem(0, 0, moradores_partes[Util.sorteia(1, 2)])
-						Graficos.renderizar()
-						enquanto (verdadeiro) {
-							se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
-								pare
-							}
-						}
-						conseguiu_informacao = falso
-					}
-					pare
-				}
-				senao se (curso == "tecnico_desenvolvimento_sistemas") {
-					moradores_partes[5] = Graficos.carregar_imagem("Find_IT/historia/sim_ou_sim.png")
-					
-					enquanto (verdadeiro) {
-						Graficos.desenhar_imagem(0, 0, moradores_partes[5])
-						Graficos.renderizar()
-						se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
-							numero_sorteado = Util.sorteia(1, 6)
-							se (numero_sorteado == 6) {
-						Graficos.desenhar_imagem(0, 0, moradores_partes[5])
-						Graficos.renderizar()
-								conseguiu_informacao = verdadeiro
-							}
-							senao {
-						Graficos.desenhar_imagem(0, 0, moradores_partes[5])
-						Graficos.renderizar()
-								conseguiu_informacao = falso
-							}
-							pare
-						}
-					}
-					pare
-				}
-			}
+
+			conseguiu_informacao = consequencia_moradores(moradores_certos, parar, moradores_partes)
 		}
 		retorne conseguiu_informacao
 	}
 
-	funcao vazio jogo_multiplicacao() {
+	funcao logico consequencia_moradores(inteiro moradores_certo[], logico &parar, inteiro moradores_partes[]) {
+		logico pegou_informacao = falso
+		caracter caracter_numero_morador
+		inteiro inteiro_numero_morador
+		
+		se ((lugar == "casa_morador_1" ou lugar == "casa_morador_2" ou lugar == "casa_morador_3") e Teclado.tecla_pressionada(Teclado.TECLA_E)) {
+			se (curso == "seguranca_publica" ou curso == "psicologia") {
+				caracter_numero_morador = Texto.obter_caracter(lugar, 13)
+				inteiro_numero_morador = Tipos.caracter_para_inteiro(caracter_numero_morador) - 1
+				se (moradores_certo[inteiro_numero_morador] == 1) {
+					Graficos.desenhar_imagem(0, 0, moradores_partes[0])
+					Graficos.renderizar()
+					enquanto (verdadeiro) {
+						se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
+							pare
+						}
+					}
+					parar = verdadeiro
+					pegou_informacao = verdadeiro
+				}
+				senao se (moradores_certo[inteiro_numero_morador] == 0) {
+					Graficos.desenhar_imagem(0, 0, moradores_partes[Util.sorteia(1, 2)])
+					Graficos.renderizar()
+					enquanto (verdadeiro) {
+						se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
+							pare
+						}
+					}
+					pegou_informacao = falso
+				}
+			}
+			senao se (curso == "tecnico_desenvolvimento_sistemas") {
+				inteiro acertos
+			
+				Graficos.desenhar_imagem(0, 0, moradores_partes[Util.sorteia(1, 2)])
+				Graficos.renderizar()
+				enquanto (verdadeiro) {
+					se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
+						pare
+					}
+				}
+				
+				moradores_partes[5] = Graficos.carregar_imagem("Find_IT_2/historia/sim_ou_sim.png")
+									
+				Graficos.desenhar_imagem(0, 0, moradores_partes[5])
+				Graficos.renderizar()
+				enquanto (verdadeiro) {
+					se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
+						acertos = jogo_multiplicacao()
+					}
+				}
+				parar = verdadeiro
+			}
+		}
+		retorne pegou_informacao
+	}
+
+	funcao inteiro jogo_multiplicacao() {
 		inteiro numero
-		inteiro pontos = 0
+		inteiro acertos = 0
 		inteiro quantidade_vezes = 3
 		inteiro multiplicador
 		inteiro multiplicando
@@ -656,32 +663,33 @@ programa
 		cadeia numero_entrado = ""
 		cadeia enunciado
 		inteiro resultado
+		cadeia tabela_pontos
 		
 		para (i = 1; i <= quantidade_vezes; i++) {
 			multiplicador = Util.sorteia(1, 99)
 			multiplicando = Util.sorteia(1, 99)
+			tabela_pontos = acertos + "/3"
 			resultado = multiplicador * multiplicando
 			
 			enunciado = multiplicando + " x " + multiplicador + " = "
+			
+			Graficos.definir_tamanho_texto(20.0)
 			enquanto (verdadeiro) {
 				Graficos.desenhar_texto(0, 0, enunciado)
 				Graficos.desenhar_texto(300, 0, numero_entrado)
+				Graficos.desenhar_texto(1000, 0, tabela_pontos)
 				Graficos.renderizar()
-				numero_entrado += Teclado.caracter_tecla(Teclado.ler_tecla())
+				numero_entrado += Tipos.caracter_para_cadeia(Teclado.caracter_tecla(Teclado.ler_tecla()))
 				se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
 					pare
 				}
 			}
 			
 			se (numero_entrado == Tipos.inteiro_para_cadeia(resultado, 10)) {
-				escreva("Ganhaste um ponto\n")
-				pontos++
-			}
-			senao {
-				escreva("Erraste, perdeste um ponto\n")
-				pontos--
+				acertos++
 			}
 		}
+		retorne acertos
 	}
 
 	// permitirá que o usuário movimente e escolha entre os três edifícios, além disso, isso mostrará a missão no canto da tela
