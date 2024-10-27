@@ -31,8 +31,12 @@ programa
 		logico conseguiu_falar
 		cadeia investigou = ""
 		inteiro tela_escolha_investigacao
+		inteiro imagens_esgoto[10]
 
 		inicia_grafico()
+
+		capa_jogo()
+		passa_capa()
 		
 		historia(investigou)
 
@@ -41,7 +45,7 @@ programa
 		}
 		senao se (investigou == "investigar") {
 			lugar = "casa_usuario"
-			guardar_imagens_moradores()
+			guardar_imagens_principais()
 			
 			aparecer_cidade()
 
@@ -55,6 +59,8 @@ programa
 				se (conseguiu_falar) {
 					escolher_edificio()
 					se (lugar == "dentro_esgoto") {
+						guardar_imagens_esgoto()
+						
 						enquanto (verdadeiro) {
 							se (lugar == "dentro_esgoto") {
 								Util.aguarde(300)
@@ -74,6 +80,9 @@ programa
 								} 
 	
 							}
+							senao se (lugar == "fim_perdeu") {
+								
+							}
 							
 						}
 					}
@@ -90,33 +99,43 @@ programa
 			}
 		}
 	}
+	funcao vazio inicia_grafico() {
+		Graficos.iniciar_modo_grafico(verdadeiro)
+		Graficos.entrar_modo_tela_cheia()
+	}
+
+	funcao vazio capa_jogo() {
+		inteiro capa = Graficos.carregar_imagem("Find_IT_3/capa.png")
+
+		Graficos.desenhar_imagem(0, 0, capa)
+		Graficos.renderizar()
+
+		Graficos.liberar_imagem(capa)
+		
+		Util.aguarde(1000)
+	}
+
+	funcao vazio passa_capa() {
+		faca {
+			se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
+				pare
+			}
+		} enquanto (verdadeiro)
+
+		Graficos.renderizar()
+	}
 	
-	funcao vazio guardar_imagens_moradores() {
+	funcao vazio guardar_imagens_principais() {
 		// Declaração de variáveis
 		inteiro arquivo = 0
 		
 			// Principais
 		inteiro usuario = Graficos.carregar_imagem("Find_IT_3/personagens/usuario/usuario.png")
-		inteiro cidade = Graficos.carregar_imagem("Find_IT_1/cenarios/cidade/cidade.jpg")
-
-		/*
-			// Esgoto
-		inteiro esgoto = Graficos.carregar_imagem("portas_esgoto/esgoto.jpg")
-		inteiro sala_esgoto_teia = Graficos.carregar_imagem("Find_IT/Find_IT_slides/cenarios/esgoto/sala_esgoto_teia.png")
-
-			// Bandidos
-		// inteiro bandido_1 = Graficos.carregar_imagem("")
-*/
+		inteiro cidade = Graficos.carregar_imagem("Find_IT_1/cenarios/cidade/cidade.png")
 
 		// Deixa a imagem do tamanho que queremos
 		cidade = Graficos.redimensionar_imagem(cidade, Graficos.largura_tela(), Graficos.altura_tela(), verdadeiro)
 		usuario = Graficos.redimensionar_imagem(usuario, adequar_largura(Graficos.largura_imagem(usuario) / 6), adequar_altura((Graficos.altura_imagem(usuario) / 6)), verdadeiro)
-
-/*
-		esgoto = Graficos.redimensionar_imagem(esgoto, Graficos.largura_tela(), Graficos.altura_tela(), verdadeiro)
-		sala_esgoto_teia = Graficos.redimensionar_imagem(sala_esgoto_teia, Graficos.largura_tela(), Graficos.altura_tela(), verdadeiro)
-*/
-
 
 		// Se o arquivo ainda não foi criado no computador, ele cria
 		se (Arquivos.arquivo_existe("imagens")) {
@@ -126,16 +145,44 @@ programa
 		// Abre
 		arquivo = Arquivos.abrir_arquivo("imagens", Arquivos.MODO_ESCRITA)
 
-			// Adiciona as imagens ao arquivo
+		// Adiciona as imagens ao arquivo
 				// Principais
 		adiciona_imagem_arquivo(arquivo, cidade, "cidade")
 		adiciona_imagem_arquivo(arquivo, usuario, "usuario")
 
-/*
-				// Esgoto
+		// Fecha
+		Arquivos.fechar_arquivo(arquivo)
+	}
+
+	funcao vazio guardar_imagens_esgoto() {
+		// Declaração de variáveis
+		inteiro arquivo = 0
+		
+			// Principais
+		inteiro esgoto = Graficos.carregar_imagem("Find_IT_1/esgoto/esgoto.jpg")
+		inteiro sala_esgoto_teia = Graficos.carregar_imagem("Find_IT_1/cenarios/esgoto/sala_esgoto_teia.png")
+		inteiro sala_esgoto_escada = Graficos.carregar_imagem("Find_IT_1/cenarios/esgoto/sala_esgoto_escada.png")
+		inteiro aviso_batalha = Graficos.carregar_imagem("Find_IT_3/batalhe.png")
+		inteiro usuario_batalha = Graficos.carregar_imagem("Find_IT_3/personagens/usuario/usuario_batalha_0.png")
+		inteiro bandido_batalha = Graficos.carregar_imagem("Find_IT_3/personagens/cris/cris_batalha_0.png")
+		inteiro bandido = Graficos.carregar_imagem("Find_IT_3/personagens/cris/cris.png")
+
+		// Deixa a imagem do tamanho que queremos
+		sala_esgoto_teia = Graficos.redimensionar_imagem(sala_esgoto_teia, Graficos.largura_tela(), Graficos.altura_tela(), verdadeiro)
+		sala_esgoto_escada = Graficos.redimensionar_imagem(sala_esgoto_escada, Graficos.largura_tela(), Graficos.altura_tela(), verdadeiro)
+	
+		// Abre
+		arquivo = Arquivos.abrir_arquivo("imagens", Arquivos.MODO_ACRESCENTAR)
+
+		// Adiciona as imagens ao arquivo
+				// Principais
 		adiciona_imagem_arquivo(arquivo, esgoto, "esgoto")
 		adiciona_imagem_arquivo(arquivo, sala_esgoto_teia, "sala_esgoto_teia")
-*/
+		adiciona_imagem_arquivo(arquivo, sala_esgoto_escada, "sala_esgoto_escada")
+		adiciona_imagem_arquivo(arquivo, aviso_batalha, "aviso_batalha")
+		adiciona_imagem_arquivo(arquivo, usuario_batalha, "usuario_batalha_0")
+		adiciona_imagem_arquivo(arquivo, bandido_batalha, "cris_batalha_0")
+		adiciona_imagem_arquivo(arquivo, bandido, "bandido")
 
 		// Fecha
 		Arquivos.fechar_arquivo(arquivo)
@@ -190,11 +237,6 @@ programa
 		}
 		Arquivos.fechar_arquivo(arquivo)
 		retorne numero_arquivo
-	}
-	
-	funcao vazio inicia_grafico() {
-		Graficos.iniciar_modo_grafico(verdadeiro)
-		Graficos.entrar_modo_tela_cheia()
 	}
 
 	funcao vazio historia(cadeia &investigou) {
@@ -624,7 +666,39 @@ programa
 							pare
 						}
 					}
-					pegou_informacao = falso
+					se (curso == "seguranca_publica") {
+						
+						moradores_partes[5] = Graficos.carregar_imagem("Find_IT_2/historia/sim_ou_sim.png")
+		
+						Graficos.desenhar_imagem(0, 0, moradores_partes[5])
+						Graficos.renderizar()
+						Util.aguarde(500)
+						
+						enquanto (verdadeiro) {
+							se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
+								pare
+							}
+						}
+						Util.aguarde(300)
+						
+						pegou_informacao = jogo_adivinha_numero()
+						Util.aguarde(500)
+						
+						se (pegou_informacao) {
+							Graficos.desenhar_imagem(0, 0, moradores_partes[0])
+							Graficos.renderizar()
+							enquanto (verdadeiro) {
+								se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
+									pare
+								}
+							}
+							parar = verdadeiro
+						}
+						senao {
+							
+						}
+						Util.aguarde(300)
+					}
 				}
 			}
 			senao se (curso == "tecnico_desenvolvimento_sistemas") {
@@ -632,19 +706,31 @@ programa
 			
 				Graficos.desenhar_imagem(0, 0, moradores_partes[Util.sorteia(1, 2)])
 				Graficos.renderizar()
+				Util.aguarde(300)
 				enquanto (verdadeiro) {
 					se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
 						pare
 					}
 				}
+
 				
 				moradores_partes[5] = Graficos.carregar_imagem("Find_IT_2/historia/sim_ou_sim.png")
-									
+
 				Graficos.desenhar_imagem(0, 0, moradores_partes[5])
 				Graficos.renderizar()
+				Util.aguarde(300)
+				
 				enquanto (verdadeiro) {
 					se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
 						acertos = jogo_multiplicacao()
+
+						se (acertos > 1) {
+							pegou_informacao = verdadeiro
+						}
+						senao {
+							pegou_informacao = falso
+						}
+						pare
 					}
 				}
 				parar = verdadeiro
@@ -653,8 +739,109 @@ programa
 		retorne pegou_informacao
 	}
 
+	funcao logico jogo_adivinha_numero() {
+		inteiro numero_tentativas = 7
+		inteiro valor_adivinha
+		cadeia numero_entrado = ""
+		logico adivinhou = falso
+		
+		valor_adivinha = Util.sorteia(1, 100)
+		faca {
+			Graficos.definir_cor(Graficos.COR_PRETO)
+			Graficos.limpar()
+			Graficos.definir_cor(COR_CINZA)
+			Graficos.definir_tamanho_texto(100.0)
+			Graficos.desenhar_texto(0, 0, "Escolha um número entre 1 e 100")
+			Graficos.desenhar_texto(0, 100, "Seu número de tentativas : " + numero_tentativas)
+			Graficos.desenhar_texto(0, 200, "Escolha um número: " + numero_entrado)
+			Graficos.renderizar()
+			
+			se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER) e Texto.numero_caracteres(numero_entrado) > 0) {
+				Util.aguarde(300)
+				numero_tentativas -= 1
+
+				se (numero_tentativas == 0) {
+					pare
+				}
+				senao se (Tipos.cadeia_para_inteiro(numero_entrado, 10) == valor_adivinha) {
+					pare
+				}
+				senao {
+					Graficos.definir_cor(Graficos.COR_PRETO)
+					Graficos.limpar()
+					Graficos.definir_cor(COR_CINZA)
+					Graficos.definir_tamanho_texto(100.0)
+					se (Tipos.cadeia_para_inteiro(numero_entrado, 10) < valor_adivinha) {
+						Graficos.desenhar_texto(0, 0, "O número secreto é maior do que o número sugerido!")
+					}
+					senao se (Tipos.cadeia_para_inteiro(numero_entrado, 10) > valor_adivinha) {
+						Graficos.desenhar_texto(0, 0, "O número secreto é menor do que o número sugerido!")
+					}
+					Graficos.renderizar()
+					Util.aguarde(2000)
+				}
+				numero_entrado = ""
+			}
+			// eu sei que dava para usar o ler.tecla, para não precisar verificar cada uma,
+			// mas dai eu não poderia colocar tempo para o usuário, na verdade, eu até poderia, mas ia ficar
+			// pouco familiar a interface que ia ficar para o usuário, porque só depois que ele clicasse alguma tecla
+			// que ia aparecer se ele ficou sem tempo
+			senao se (Teclado.tecla_pressionada(Teclado.TECLA_0) ou Teclado.tecla_pressionada(Teclado.TECLA_0_NUM)) {
+				numero_entrado += 0
+				Util.aguarde(300)
+			}
+			senao se (Teclado.tecla_pressionada(Teclado.TECLA_1) ou Teclado.tecla_pressionada(Teclado.TECLA_1_NUM)) {
+				numero_entrado += 1
+				Util.aguarde(300)
+			}
+			senao se (Teclado.tecla_pressionada(Teclado.TECLA_2) ou Teclado.tecla_pressionada(Teclado.TECLA_2_NUM)) {
+				numero_entrado += 2
+				Util.aguarde(300)
+			}
+			senao se (Teclado.tecla_pressionada(Teclado.TECLA_3) ou Teclado.tecla_pressionada(Teclado.TECLA_3_NUM)) {
+				numero_entrado += 3
+				Util.aguarde(300)
+			}
+			senao se (Teclado.tecla_pressionada(Teclado.TECLA_4) ou Teclado.tecla_pressionada(Teclado.TECLA_4_NUM)) {
+				numero_entrado += 4
+				Util.aguarde(300)
+			}
+			senao se (Teclado.tecla_pressionada(Teclado.TECLA_5) ou Teclado.tecla_pressionada(Teclado.TECLA_5_NUM)) {
+				numero_entrado += 5
+				Util.aguarde(300)
+			}
+			senao se (Teclado.tecla_pressionada(Teclado.TECLA_6) ou Teclado.tecla_pressionada(Teclado.TECLA_6_NUM)) {
+				numero_entrado += 6
+				Util.aguarde(300)
+			}
+			senao se (Teclado.tecla_pressionada(Teclado.TECLA_7) ou Teclado.tecla_pressionada(Teclado.TECLA_7_NUM)) {
+				numero_entrado += 7
+				Util.aguarde(300)
+			}
+			senao se (Teclado.tecla_pressionada(Teclado.TECLA_8) ou Teclado.tecla_pressionada(Teclado.TECLA_8_NUM)) {
+				numero_entrado += 8
+				Util.aguarde(300)
+			}
+			senao se (Teclado.tecla_pressionada(Teclado.TECLA_9) ou Teclado.tecla_pressionada(Teclado.TECLA_9_NUM)) {
+				numero_entrado += 9
+				Util.aguarde(300)
+			}
+			senao se (Teclado.tecla_pressionada(Teclado.TECLA_BACKSPACE) e Texto.numero_caracteres(numero_entrado) > 0) {
+				numero_entrado = Texto.extrair_subtexto(numero_entrado, 0, Texto.numero_caracteres(numero_entrado) - 1)
+				Util.aguarde(300)
+			}
+		} enquanto (verdadeiro)
+		
+		se (Tipos.cadeia_para_inteiro(numero_entrado, 10) == valor_adivinha) {
+			adivinhou = verdadeiro
+		}
+		senao {
+			
+		}
+		retorne adivinhou
+	}
+
 	funcao inteiro jogo_multiplicacao() {
-		inteiro numero
 		inteiro acertos = 0
 		inteiro quantidade_vezes = 3
 		inteiro multiplicador
@@ -664,6 +851,9 @@ programa
 		cadeia enunciado
 		inteiro resultado
 		cadeia tabela_pontos
+		inteiro tempo_inicial
+		inteiro intervalo
+		inteiro tempo_final
 		
 		para (i = 1; i <= quantidade_vezes; i++) {
 			multiplicador = Util.sorteia(1, 99)
@@ -672,22 +862,80 @@ programa
 			resultado = multiplicador * multiplicando
 			
 			enunciado = multiplicando + " x " + multiplicador + " = "
+
+			tempo_inicial = Util.tempo_decorrido()
+			intervalo = Util.sorteia(27000, 30000)
+			tempo_final = tempo_inicial + intervalo
 			
-			Graficos.definir_tamanho_texto(20.0)
-			enquanto (verdadeiro) {
+			faca {
+				Graficos.definir_tamanho_texto(100.0)
+				Graficos.definir_cor(Graficos.COR_BRANCO)
 				Graficos.desenhar_texto(0, 0, enunciado)
-				Graficos.desenhar_texto(300, 0, numero_entrado)
-				Graficos.desenhar_texto(1000, 0, tabela_pontos)
+				Graficos.desenhar_texto(700, 0, numero_entrado)
+				Graficos.desenhar_texto(1500, 0, tabela_pontos)
+				Graficos.desenhar_texto(300, 200, "Tempo restante:")
+				Graficos.desenhar_texto(1500, 200, Tipos.inteiro_para_cadeia((Util.tempo_decorrido() - tempo_final) * -1 / 1000, 10))
 				Graficos.renderizar()
-				numero_entrado += Tipos.caracter_para_cadeia(Teclado.caracter_tecla(Teclado.ler_tecla()))
-				se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER)) {
+				
+				se (Teclado.tecla_pressionada(Teclado.TECLA_ENTER) e Texto.numero_caracteres(numero_entrado) > 0) {
+					Util.aguarde(300)
 					pare
 				}
-			}
+				// eu sei que dava para usar o ler.tecla, para não precisar verificar cada uma,
+				// mas dai eu não poderia colocar tempo para o usuário, na verdade, eu até poderia, mas ia ficar
+				// pouco familiar a interface que ia ficar para o usuário, porque só depois que ele clicasse alguma tecla
+				// que ia aparecer se ele ficou sem tempo
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_0) ou Teclado.tecla_pressionada(Teclado.TECLA_0_NUM)) {
+					numero_entrado += 0
+					Util.aguarde(300)
+				}
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_1) ou Teclado.tecla_pressionada(Teclado.TECLA_1_NUM)) {
+					numero_entrado += 1
+					Util.aguarde(300)
+				}
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_2) ou Teclado.tecla_pressionada(Teclado.TECLA_2_NUM)) {
+					numero_entrado += 2
+					Util.aguarde(300)
+				}
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_3) ou Teclado.tecla_pressionada(Teclado.TECLA_3_NUM)) {
+					numero_entrado += 3
+					Util.aguarde(300)
+				}
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_4) ou Teclado.tecla_pressionada(Teclado.TECLA_4_NUM)) {
+					numero_entrado += 4
+					Util.aguarde(300)
+				}
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_5) ou Teclado.tecla_pressionada(Teclado.TECLA_5_NUM)) {
+					numero_entrado += 5
+					Util.aguarde(300)
+				}
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_6) ou Teclado.tecla_pressionada(Teclado.TECLA_6_NUM)) {
+					numero_entrado += 6
+					Util.aguarde(300)
+				}
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_7) ou Teclado.tecla_pressionada(Teclado.TECLA_7_NUM)) {
+					numero_entrado += 7
+					Util.aguarde(300)
+				}
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_8) ou Teclado.tecla_pressionada(Teclado.TECLA_8_NUM)) {
+					numero_entrado += 8
+					Util.aguarde(300)
+				}
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_9) ou Teclado.tecla_pressionada(Teclado.TECLA_9_NUM)) {
+					numero_entrado += 9
+					Util.aguarde(300)
+				}
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_BACKSPACE) e Texto.numero_caracteres(numero_entrado) > 0) {
+					numero_entrado = Texto.extrair_subtexto(numero_entrado, 0, Texto.numero_caracteres(numero_entrado) - 1)
+					Util.aguarde(300)
+				}
+			} enquanto (Util.tempo_decorrido() < tempo_final)
 			
 			se (numero_entrado == Tipos.inteiro_para_cadeia(resultado, 10)) {
 				acertos++
 			}
+			numero_entrado = ""
+			Util.aguarde(500)
 		}
 		retorne acertos
 	}
@@ -724,8 +972,8 @@ programa
 				}
  			} 
 		}
-		senao se (lugar == "hospital" e Teclado.tecla_pressionada(Teclado.TECLA_E)) {
-			
+		senao se (lugar == "hospital" e Teclado.tecla_pressionada(Teclado.TECLA_E) e vida_usuario != 200) {
+			vida_usuario = 200
 		}
 	}
 
@@ -1049,81 +1297,71 @@ programa
 				posicao_y_usuario = adequar_altura(710)
 			}
 		}
+
+		cenario_esgoto(rotacao)
+	}	
+
+	// Faz o cenário do esgoto, junto com o usuário
+	funcao vazio cenario_esgoto(inteiro rotacao) {
 		Graficos.desenhar_imagem(0, 0, reverter_imagem("esgoto"))
 				
 		Graficos.definir_rotacao(rotacao)
 		Graficos.desenhar_imagem(posicao_x_usuario, posicao_y_usuario, reverter_imagem("usuario"))
 		Graficos.definir_rotacao(0)
-				
-		Graficos.renderizar()
-	}	
-
+	}
+	
 	// Dá a consequência da sala em que o usuário entre
-	funcao vazio consequencia_salas(inteiro ponto, inteiro tipos_sala[][]) {
-		mostre_sala_esgoto(ponto, tipos_sala)
+	funcao vazio consequencia_salas(inteiro ponto, inteiro tipos_sala[][], logico &pegou_chave) {
+		//mostre_sala_esgoto(ponto, tipos_sala)
 		
-		se (tipos_sala[ponto - 1][1] == 2) {
-			se (tipos_sala[ponto - 1][2] == 0) {
-				Graficos.desenhar_imagem(960, 0, reverter_imagem("aviso_agente"))
-
-				mostre_bandido()
-			}
-			
-			Graficos.renderizar()
-			
-			Util.aguarde(300)
-			
-			enquanto (verdadeiro) {
-				se (Teclado.tecla_pressionada(Teclado.TECLA_E) e tipos_sala[ponto - 1][2] == 0) {
-					batalhar()
-					
-					se (vida_bandido <= 0) {
-						vida_bandido = 200
-						tipos_sala[ponto - 1][2] = 1
-					}
-					senao {
-						
-					}
-				}
-				senao se (Teclado.tecla_pressionada(Teclado.TECLA_Q)) {
-					pare
-				}
-			}
-		}
-		senao se (tipos_sala[ponto - 1][1] == 1) {
-			se (tipos_sala[ponto - 1][2] == 0) {
-				Graficos.desenhar_imagem(960, 0, reverter_imagem("aviso_agente"))
-
-				mostre_bandido()
-			}
-			
-			Graficos.renderizar()
-			
-			Util.aguarde(300)
-			
-			enquanto (verdadeiro) {
-				se (Teclado.tecla_pressionada(Teclado.TECLA_E) e tipos_sala[ponto - 1][2] == 0) {
-					batalhar()
-					
-					se (vida_bandido <= 0) {
-						vida_bandido = 200
-						tipos_sala[ponto - 1][2] = 1
-					}
-					senao {
-						
-					}
-				}
-				senao se (Teclado.tecla_pressionada(Teclado.TECLA_Q)) {
-					pare
-				}
-			}
-		}
-		senao {
+		se (tipos_sala[ponto - 1][1] == 0) {
+			Graficos.desenhar_imagem(0, 0, reverter_imagem("sala_esgoto_teia"))
 			Graficos.renderizar()
 		
 			Util.aguarde(300)
 			enquanto (verdadeiro) {
 				se (Teclado.tecla_pressionada(Teclado.TECLA_Q)) {
+					pare
+				}
+			}
+		}
+		senao {
+			Graficos.desenhar_imagem(0, 0, reverter_imagem("sala_esgoto_teia"))
+			mostre_usuario()
+			se (tipos_sala[ponto - 1][2] == 0) {
+				Graficos.desenhar_imagem(960, 0, reverter_imagem("aviso_batalha"))
+
+				mostre_bandido()
+			}
+			
+			Graficos.renderizar()
+			
+			Util.aguarde(300)
+			
+			enquanto (verdadeiro) {
+				se (Teclado.tecla_pressionada(Teclado.TECLA_E) e tipos_sala[ponto - 1][2] == 0) {
+					batalhar()
+					
+					se (vida_bandido <= 0) {
+						vida_bandido = 200
+						tipos_sala[ponto - 1][2] = 1
+						
+						Graficos.desenhar_imagem(0, 0, reverter_imagem("sala_esgoto_teia"))
+						mostre_usuario()
+						Graficos.desenhar_imagem(1459, 1050, Graficos.carregar_imagem("Find_IT_3/final_da_batalha/vitoria.png"))
+						se (tipos_sala[ponto - 1][1] == 2) {
+							Graficos.desenhar_imagem(1459, 0, Graficos.carregar_imagem("Find_IT_3/final_da_batalha/encontrou_chave.png"))
+							pegou_chave = verdadeiro
+						}
+						Util.aguarde(2000)
+						consequencia_salas(ponto, tipos_sala, pegou_chave)
+						pare
+					}
+					senao se (vida_usuario <= 0) {
+						pare
+					}
+				}
+				senao se (Teclado.tecla_pressionada(Teclado.TECLA_Q)) {
 					pare
 				}
 			}
@@ -1143,9 +1381,8 @@ programa
 				cenario_batalha()
 				
 				// definir personagens
-				Graficos.definir_cor(COR_CINZA)
-				Graficos.desenhar_retangulo(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
-				Graficos.desenhar_retangulo(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
+				Graficos.desenhar_imagem(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), reverter_imagem("usuario_batalha_0"))
+				Graficos.desenhar_imagem(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), reverter_imagem("cris_batalha_0"))
 				
 				se (Teclado.tecla_pressionada(Teclado.TECLA_W) e posicao_y_seta == adequar_altura(930)) {
 					posicao_y_seta -= adequar_altura(170)
@@ -1220,9 +1457,8 @@ programa
 		
 		cenario_batalha()
 		// definir personagens
-		Graficos.definir_cor(COR_CINZA)
-		Graficos.desenhar_retangulo(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
-		Graficos.desenhar_retangulo(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
+		Graficos.desenhar_imagem(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), reverter_imagem("usuario_batalha_0"))
+		Graficos.desenhar_imagem(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), reverter_imagem("cris_batalha_0"))
 		Graficos.renderizar()
 		
 		Util.aguarde(1500)
@@ -1244,9 +1480,9 @@ programa
 		cenario_batalha()
 		// definir personagens
 		Graficos.definir_cor(COR_CINZA)
-		Graficos.desenhar_retangulo(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
-		Graficos.desenhar_retangulo(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
-		Graficos.definir_opacidade(230)
+		Graficos.desenhar_imagem(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), reverter_imagem("usuario_batalha_0"))
+		Graficos.desenhar_imagem(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), reverter_imagem("cris_batalha_0"))
+		Graficos.definir_opacidade(235)
 		Graficos.desenhar_retangulo(0, 0, Graficos.largura_tela(), Graficos.altura_tela(), falso, verdadeiro)
 		Graficos.definir_opacidade(255)
 		Graficos.definir_cor(Graficos.COR_BRANCO)
@@ -1272,23 +1508,20 @@ programa
 
 		para (i = 0; i < 2; i++) {
 			cenario_batalha()
-			
 			Graficos.definir_cor(COR_CINZA)
-			Graficos.desenhar_retangulo(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
-		
+			Graficos.desenhar_imagem(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), reverter_imagem("usuario_batalha_0"))
+			
 			Graficos.renderizar()
 			Util.aguarde(150)
 			
 			cenario_batalha()
-
-			Graficos.definir_cor(COR_CINZA)
-			Graficos.desenhar_retangulo(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
-			Graficos.definir_cor(COR_CINZA)
-			Graficos.desenhar_retangulo(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
+			Graficos.desenhar_imagem(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), reverter_imagem("usuario_batalha_0"))
+			Graficos.desenhar_imagem(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), reverter_imagem("cris_batalha_0"))
 
 			Graficos.renderizar()
 			Util.aguarde(200)
 		}
+		
 	}
 
 	funcao vazio usuario_tomou_dano() {
@@ -1296,19 +1529,15 @@ programa
 
 		para (i = 0; i < 2; i++) {
 			cenario_batalha()
-			
-			Graficos.definir_cor(COR_CINZA)
-			Graficos.desenhar_retangulo(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
+			Graficos.desenhar_imagem(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), reverter_imagem("cris_batalha_0"))
 		
 			Graficos.renderizar()
 			Util.aguarde(150)
 			
 			cenario_batalha()
 
-			Graficos.definir_cor(COR_CINZA)
-			Graficos.desenhar_retangulo(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
-			Graficos.definir_cor(COR_CINZA)
-			Graficos.desenhar_retangulo(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), adequar_largura(50), adequar_altura(190), falso, verdadeiro)
+			Graficos.desenhar_imagem(adequar_largura(594 - 50 / 2), adequar_altura(1079 - 350 - 190 - 30 - 80), reverter_imagem("usuario_batalha_0"))
+			Graficos.desenhar_imagem(adequar_largura(730 + (594 - 50 / 2)), adequar_altura(250 - 40 - 80), reverter_imagem("cris_batalha_0"))
 
 			Graficos.renderizar()
 			Util.aguarde(200)
@@ -1319,31 +1548,38 @@ programa
 		const inteiro ALTURA_BLOCOS_ATAQUE = 140
 		const inteiro LARGURA_BLOCOS_ATAQUE = 400
 
+		// fundo
 		Graficos.definir_cor(Graficos.COR_BRANCO)
 		Graficos.limpar()
-			
+
+		// Lugar onde fica a barra de vida, o fundo da barra de vida
 		Graficos.definir_cor(Graficos.COR_PRETO)
 		Graficos.desenhar_retangulo(adequar_largura(20), adequar_altura(70), adequar_largura(720), adequar_altura(150), verdadeiro, verdadeiro)
 		Graficos.desenhar_retangulo(adequar_largura(1919 - 740),adequar_altura( 1079 - (350 + 100 + 150)), adequar_largura(720), adequar_altura(150), verdadeiro, verdadeiro)
 
+		// Barra de vida
 		Graficos.definir_cor(Graficos.COR_AMARELO)
 		Graficos.desenhar_retangulo(adequar_largura(30), adequar_altura(135), adequar_largura(vida_bandido / 2 * 7), adequar_altura(75), verdadeiro, verdadeiro)
 		Graficos.desenhar_retangulo(adequar_largura(1919 - 730), adequar_altura(1079 - (350 + 100 + 10 + 75)), adequar_largura(vida_usuario / 2 * 7), adequar_altura(75), verdadeiro, verdadeiro)
 
+		// Lugar onde os personagens ficam
 		Graficos.definir_cor(COR_CINZA_ESCURO)
 		Graficos.desenhar_elipse(adequar_largura(594 - 800 / 2), adequar_altura(1079 - 350 - 150 - 30), adequar_largura(800), adequar_altura(150), verdadeiro)
 		Graficos.desenhar_elipse(adequar_largura(730 + (594 - 800 / 2)), adequar_altura(250), adequar_largura(800), adequar_altura(150), verdadeiro)
 
 		// interface dos ataques
+			// fundo onde fica os ataques
 		Graficos.definir_cor(COR_CINZA)
 		Graficos.desenhar_retangulo(adequar_largura(0), adequar_altura(1079 - 350), adequar_largura(1920), adequar_altura(350), falso, verdadeiro)
 
+			// Bloco onde fica os ataques
 		Graficos.definir_cor(COR_CINZA_ESCURO)
 		Graficos.desenhar_retangulo(adequar_largura(200), adequar_altura(1079 - (350 - 20)), adequar_largura(LARGURA_BLOCOS_ATAQUE), adequar_altura(ALTURA_BLOCOS_ATAQUE), falso, verdadeiro)
 		Graficos.desenhar_retangulo(adequar_largura(200), adequar_altura(1079 - (350 - 20 - ALTURA_BLOCOS_ATAQUE - 30)), adequar_largura(LARGURA_BLOCOS_ATAQUE), adequar_altura(ALTURA_BLOCOS_ATAQUE), falso, verdadeiro)
 		Graficos.desenhar_retangulo(adequar_largura(200 + LARGURA_BLOCOS_ATAQUE + 230), adequar_altura(1079 - (350 - 20)), adequar_largura(LARGURA_BLOCOS_ATAQUE), adequar_altura(ALTURA_BLOCOS_ATAQUE), falso, verdadeiro)
 		Graficos.desenhar_retangulo(adequar_largura(200 + LARGURA_BLOCOS_ATAQUE + 230), adequar_altura(1079 - (350 - 20 - ALTURA_BLOCOS_ATAQUE - 30)), adequar_largura(LARGURA_BLOCOS_ATAQUE), adequar_altura(ALTURA_BLOCOS_ATAQUE), falso, verdadeiro)
-		
+
+			// A seta que escolhe os ataques
 		Graficos.definir_tamanho_texto(adequar_texto(120.0))
 		Graficos.desenhar_texto(posicao_x_seta, posicao_y_seta, ">")
 	}
@@ -1351,7 +1587,6 @@ programa
 	// mostra a sala da escada
 	funcao vazio mostre_sala_escada() {
 		Graficos.desenhar_imagem(0, 0, reverter_imagem("sala_esgoto_escada"))
-		Graficos.renderizar()
 	}
 
 	// mostra a sala do esgoto, que há três designs
@@ -1371,7 +1606,13 @@ programa
 	}
 
 	funcao vazio mostre_bandido() {
-		Graficos.desenhar_retangulo(1700, 539, 100, 100, falso, verdadeiro)
+		Graficos.desenhar_imagem(1700, 539, reverter_imagem("bandido"))
+	}
+
+	funcao vazio mostre_usuario() {
+		Graficos.definir_rotacao(90)
+		Graficos.desenhar_imagem(350, 539, reverter_imagem("usuario"))
+		Graficos.definir_rotacao(0)
 	}
 
 	// Escolhe um dos três tipos para as 12 salas
@@ -1454,6 +1695,7 @@ programa
 		
 		enquanto (verdadeiro) {
 			movimentacao_esgoto(ponto, rotacao)
+			Graficos.renderizar()
 			
 			se (Teclado.tecla_pressionada(Teclado.TECLA_E)) {
 				se (ponto  == 0) {
@@ -1464,13 +1706,58 @@ programa
 				senao se (tipos_sala[ponto - 1][1] == 3) {
 					se (tem_chave) {
 						mostre_sala_escada()
+						Graficos.desenhar_imagem(960, 0, reverter_imagem("aviso_batalha"))
+						mostre_usuario()
+		
+						mostre_bandido()
+						Graficos.renderizar()
+						
+						enquanto (verdadeiro) {
+							se (Teclado.tecla_pressionada(Teclado.TECLA_E) e tipos_sala[ponto - 1][2] == 0) {
+								batalhar()
+								
+								se (vida_bandido <= 0) {
+									mostre_sala_escada()
+									mostre_usuario()
+									
+									tipos_sala[ponto - 1][2] = 1
+		
+									
+									pare
+								}
+								senao se (vida_usuario <= 0) {
+									pare
+								}
+							}
+							se (Teclado.tecla_pressionada(Teclado.TECLA_E) e tipos_sala[ponto - 1][2] == 1) {
+								
+							}
+							senao se (Teclado.tecla_pressionada(Teclado.TECLA_Q)) {
+								pare
+							}
+						}
 					}
 					senao {
-						
+						movimentacao_esgoto(ponto, rotacao)
+						Graficos.definir_cor(COR_CINZA)
+						Graficos.definir_opacidade(240)
+						Graficos.desenhar_retangulo(0, 0, Graficos.largura_tela(), Graficos.altura_tela(), falso, verdadeiro)
+						Graficos.definir_opacidade(255)
+						Graficos.definir_cor(Graficos.COR_BRANCO)
+						Graficos.definir_tamanho_texto(100.0)
+						Graficos.desenhar_texto(0, 539, "Sala trancada, procure a chave!")
+								
+						Graficos.renderizar()
+						Util.aguarde(2000)
 					}
 				}
 				senao {
-					consequencia_salas(ponto, tipos_sala)
+					consequencia_salas(ponto, tipos_sala, tem_chave)
+					se (vida_usuario  <= 0) {
+						lugar = "fim_perdeu"
+						Util.aguarde(300)
+						pare
+					}
 				}
 			}
 
